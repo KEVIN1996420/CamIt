@@ -2,6 +2,7 @@
 // MODELS
 const Auth = require('../models/Auth');
 
+
 // @desc Get all users
 // @desc GET /api/v1/auth
 // @access Public
