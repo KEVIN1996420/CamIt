@@ -1,6 +1,6 @@
 /*jshint esversion: 9 */
 // MODELS
-// const User = require('../models/User');
+const Auth = require('../models/Auth');
 
 // @desc Get all users
 // @desc GET /api/v1/auth
