@@ -12,6 +12,7 @@ const connectDB = require('./configs/db');
 
 // import routes from routes folder
 const auth = require("./routes/auth");
+const views = require("./routes/views");
 
 // initialize express server
 const app = express();
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // mount routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/views', views);
 
 
 // set up port

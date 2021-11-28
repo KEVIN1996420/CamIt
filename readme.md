@@ -73,15 +73,25 @@ MongoDB:
 * console log connection status
 * server.js - require db.js and connectDB under configs
 
+Postman POST req:
+* header to application/json
+* add form data in body as object
+
+Setup views route controllers:
+* require and mount route
+* setup get req in controller 
+* export router in routes file
+
 WeatherStack API: 
 * Add ApiKey in configs
 * Connect to get req using axios or request package
 * only get req to get data from weather stack
 
 MapBox API:
-* 
-
-* Postman POST req
-* header to application/json
-* add form data in body as object
+* Get api key from website
+* save it in configs
+* save mapbox url in var
+* use axios to send get req
+* return coordinates from address
+<!-- Combine MapBox coordinates into Weatherstack for weather data -->
 
