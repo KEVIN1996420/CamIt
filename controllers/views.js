@@ -4,12 +4,18 @@
 
 const axios = require('axios');
 
-const url = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=Siem Reap&units=m`;
-
 // @desc Get current weather data
-// @desc GET /api/v1/???
+// @desc GET /api/v1/views/apis
 // @access Public
+exports.getAPIs = (req, res, next) => {
+	res.status(200).json({
+		success: true,
+		msg: "Show all APIs",
+	});
+};
+
 exports.getWeather = async () => {
+	const url = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=Siem Reap&units=m`;
 	const config = await axios({
 	    method: 'get',
 	    url: url

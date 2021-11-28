@@ -38,6 +38,21 @@ Auth:
 * add timestamp and tojson toobject virtuals true
 * install slug and require in model
 * create middleware that runs slug on save and update
+<!-- --- CRUD --- -->
+* make export function async and wrap with catchasync and await data coming back
+* send the response status with the data
+* catch any errors there might be
+* set postman preset header to application/json and send data in body as json format
+* create json object following auth model
+* in server.js app.use express.json and set limit
+* first see if you can console log the req.body then proceed
+* post - wrap async and var = await model.create req.body
+* get all - wrap async and var = await model.find (.select the object fields)
+* get single - wrap async and var = await model.findById(req.params.id) (.select the object fields)
+* update single - wrap async and var = await model.findByIdAndUpdate(req.params.id, req.body, new and run validators).
+* delete single - wrap async and var = await model.findByIdAndDelete(req.params.id)
+* add count to json response users.length
+
 
 Logging Middleware:
 * Npm i morgan
@@ -58,4 +73,15 @@ MongoDB:
 * console log connection status
 * server.js - require db.js and connectDB under configs
 
+WeatherStack API: 
+* Add ApiKey in configs
+* Connect to get req using axios or request package
+* only get req to get data from weather stack
+
+MapBox API:
+* 
+
+* Postman POST req
+* header to application/json
+* add form data in body as object
 

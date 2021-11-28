@@ -16,6 +16,9 @@ const auth = require("./routes/auth");
 // initialize express server
 const app = express();
 
+// body parser
+app.use(express.json());
+
 // read env vars from configs file
 dotenv.config({ path: './configs/config.env' });
 
