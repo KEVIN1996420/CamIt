@@ -102,11 +102,6 @@ exports.getMapBoxWeather = async (req, res, next) => {
 			"The humidity is " + current.humidity + "%.";
 
 		// console.log(data);
-		// res.status(200).json({
-		// 	success: true,
-		// 	msg: "Address to MapBox coordinates to WeatherStack Data",
-		// 	data
-		// });
 		res.render('mapbox-weather', {
 			title: 'MapBox Weather API',
 			data
