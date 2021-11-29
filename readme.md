@@ -3,6 +3,7 @@ Setup Express Server:
 * create server.js
 * require express
 * initialise express
+* after mounted routes handle all unhandled route requests
 * setup port var in config
 * npm i dotenv
 * import config and path
@@ -92,7 +93,9 @@ Serve static files/folders
 * extends base with content
 * in base include header block content include footer
 
-
+Handle unhandled route requests
+* create 404.pug template
+* app.all * render 404.pug title 404 url req.originalUrl
 
 WeatherStack API: 
 * Add ApiKey in configs

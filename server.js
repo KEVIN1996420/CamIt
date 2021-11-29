@@ -44,6 +44,14 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/views', views);
 
+// handle unhandled routes
+app.all('*', (req, res, next) => {
+	res.render('404', {
+		title: '404',
+		url: req.originalUrl,
+	});
+	next();
+});
 
 // set up port
 const port = process.env.PORT || 3000;
