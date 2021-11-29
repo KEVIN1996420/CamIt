@@ -88,6 +88,10 @@ Serve static files/folders
 * create views folder in root of directory
 * app.set views to views folder in dir
 * to res.render(filename, {title data})
+* create base/header/footer.pug files
+* extends base with content
+* in base include header block content include footer
+
 
 
 WeatherStack API: 
