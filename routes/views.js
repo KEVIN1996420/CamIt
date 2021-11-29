@@ -7,19 +7,15 @@ const express = require('express');
 // const asyncHandler = require('../middleware/async');
 
 const {
-	// getWeather,
-	// getMapBox,
+	getHome,
 	getMapBoxWeather
     } =require('../controllers/views');
 
 const router = express.Router();
 
-// WEATHER API
-// router.route('/weather')
-// 	.get(getWeather);
 // MAPBOX API
-// router.route('/mapbox')
-// 	.get(getMapBox);
+router.route('/home')
+	.get(getHome);
 
 // WEATHER API & MAPBOX API
 router.route('/mapbox-weather/:address')

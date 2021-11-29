@@ -7,12 +7,11 @@ const axios = require('axios');
 // @desc Get all apis
 // @desc GET /api/v1/views/apis
 // @access Public
-// exports.getAPIs = (req, res, next) => {
-// 	res.status(200).json({
-// 		success: true,
-// 		msg: "Show all APIs",
-// 	});
-// };
+exports.getHome = (req, res, next) => {
+	res.render('home', {
+		title: 'Home'
+	});
+};
 
 // @desc Get current weather data
 // @desc GET /api/v1/views/weather
@@ -74,8 +73,9 @@ const axios = require('axios');
 
 exports.getMapBoxWeather = async (req, res, next) => {
 	try{	
-		// replace with req.params.address
 		const { address } = req.params;
+		const latitude = address.split(",")[1];
+		const longitude = address.split(",")[0];
 		if(!address){
 			return res.status(400).json({
 				success: false,
@@ -83,28 +83,30 @@ exports.getMapBoxWeather = async (req, res, next) => {
 			});
 		}
 		// store urls
-		const mapboxURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?limit=1&access_token=${process.env.MAPBOX_API_KEY}`;
+		const mapboxURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=${process.env.MAPBOX_API_KEY}`;
 		
 		const request1 = await axios.get(mapboxURL);
 		const { center } = request1.data.features[0];
-		const latLong = `${center[1]} ${center[0]}`; // lat comes from second coordinate
+		const latLong = `${center[1]},${center[0]}`; // lat comes from second coordinate
+		const data = request1.data.features[0].place_name;
 
-		const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=${encodeURIComponent(latLong)}&units=m`;
-		const request2 = await axios.get(weatherURL);
-		const { current, location } = request2.data;
-
-		const data = 
-			current.weather_descriptions[0] +
-			". It is currently " + current.temperature +" degress out. " + 
-			"Local time is " + location.localtime.split(" ")[1] + ". " + 
-			"The chance of rain is " + current.temperature + "%. " +
-			"It feels like " + current.feelslike + " degress out. " + 
-			"The humidity is " + current.humidity + "%.";
-
-		// console.log(data);
-		res.render('mapbox-weather', {
-			title: 'MapBox Weather API',
-			data
+		// const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=${encodeURIComponent(latLong)}&units=m`;
+		// const request2 = await axios.get(weatherURL);
+		// const { current, location } = request2.data;
+		// const { temperature, feelslike, humidity } = current;
+		
+		// const data = 
+		// 	current.weather_descriptions[0] +
+		// 	". It is currently " + temperature +" degress out. " + 
+		// 	"Local time is " + location.localtime.split(" ")[1] + ". " + 
+		// 	"The chance of rain is " + temperature + "%. " +
+		// 	"It feels like " + feelslike + " degress out. " + 
+		// 	"The humidity is " + humidity + "%.";
+		
+		res.status(200).json({
+			success: true,
+			location: data,
+			coordinates: address
 		});
 	}catch(err){
 		console.log(err.message);
