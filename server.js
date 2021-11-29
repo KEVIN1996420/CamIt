@@ -30,6 +30,11 @@ connectDB();
 // SET STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));
 
+// setup express pug view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+
 // dev logging middleware
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
@@ -51,3 +56,5 @@ process.on('unhandledRejection', (err, promise) => {
 	console.log(`Error: ${err.message}`.red.bgGreen);
 	server.close(() => process.exit(1));
 });
+
+// delete http from package.json

@@ -23,7 +23,6 @@ Files & Folders:
 Configs:
 * NODE_ENV=development, PORT=???, APP_NAME=???, MONGO_URI=???
 
-
 Auth:
 * create files(routes/auth.js + controllers/auth.js + models/Auth.js)
 * routes - require express
@@ -53,7 +52,6 @@ Auth:
 * delete single - wrap async and var = await model.findByIdAndDelete(req.params.id)
 * add count to json response users.length
 
-
 Logging Middleware:
 * Npm i morgan
 * require morgan
@@ -81,6 +79,15 @@ Setup views route controllers:
 * require and mount route
 * setup get req in controller 
 * export router in routes file
+
+Serve static files/folders
+* require path at very top
+* app.use(express.static(path.join(__dirname, 'public')));
+* choose which templating engine (pug, ejs, handlebars)
+* app.set view engine pug or ejs or handlebars
+* create views folder in root of directory
+* app.set views to views folder in dir
+
 
 WeatherStack API: 
 * Add ApiKey in configs
