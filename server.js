@@ -1,7 +1,8 @@
 /* jshint  esversion: 9 */
 
+// core node module
+const path = require('path');
 // require npm modules
-// const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -26,8 +27,8 @@ dotenv.config({ path: './configs/config.env' });
 // connect database
 connectDB();
 
-// setup express server to serve static files	
-// app.use(express.static('public'));
+// SET STATIC FOLDER
+app.use(express.static(path.join(__dirname, 'public')));
 
 // dev logging middleware
 if (process.env.NODE_ENV === 'development') {
