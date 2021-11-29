@@ -87,6 +87,7 @@ Serve static files/folders
 * app.set view engine pug or ejs or handlebars
 * create views folder in root of directory
 * app.set views to views folder in dir
+* to res.render(filename, {title data})
 
 
 WeatherStack API: 
