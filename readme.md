@@ -110,3 +110,31 @@ MapBox API:
 * return coordinates from address
 <!-- Combine MapBox coordinates into Weatherstack for weather data -->
 
+Schema Validator
+* install validator
+* require in model
+* create validate field for field to be validated.
+* email/password
+
+Express ErrorHandler Middleware
+* create middleware file error.js
+* function that takes in err, req, res, next
+* create var that spreads the error
+* res.json(success:false, error: err.message)
+* require in server/app.js
+* under mounted routes where we use errorHandler in app.use
+
+Utils
+* Create errorResponse file
+* create class errorResponse which extends error class
+* constructor message and status
+* super message
+* this.statusCode = statusCode
+* export and import ErrorResponse into error middleware
+* in errorHandler res.status(error.statusCode)
+* next(new ErrorResponse) is not working in controllers
+
+
+
+
+

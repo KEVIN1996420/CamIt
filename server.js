@@ -2,11 +2,15 @@
 
 // core node module
 const path = require('path');
+
 // require npm modules
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+
+// require middleware
+const errorHandler = require('./middleware/error.js');
 
 // require files
 const connectDB = require('./configs/db');
@@ -52,6 +56,9 @@ app.all('*', (req, res, next) => {
 	});
 	next();
 });
+
+// use the errorHandler middleware
+app.use(errorHandler);
 
 // set up port
 const port = process.env.PORT || 3000;

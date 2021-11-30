@@ -1,17 +1,26 @@
 /* jshint  esversion: 9 */
 const mongoose = require('mongoose');
+const validator = require('validator');
+
 
 const Authschema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
 		trim: true,
-		maxLength: [50, 'Name must be less than 50 characters']
+		maxLength: [20, 'Name must be less than 20 characters'],
+		minLength: [2, 'Name must be more than 2 characters']
 	},
 	email: {
 		type: String,
 		required: true,
 		unique: true,
+		trim: true,
+		validate(value){
+			if(!validator.isEmail(value)){
+				throw new Error('Email is invalid');
+			}
+		}
 		// match: '[a-z0-9]+@[a-z]+\.[a-z]{2,3}',
 	},
 	password: {
@@ -19,7 +28,17 @@ const Authschema = new mongoose.Schema({
 		trim: true,
 		type: String,
 		// match: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})',
-		maxLength: [20, 'Name must be less than 50 characters']
+		maxLength: [20, 'Name must be less than 50 characters'],
+		minLength: [8, 'Name must be more than 7 characters'],
+		validate(value){
+			if(value.toLowerCase().includes('password')){
+				throw new Error('Password cannot contain "password"');
+			}
+		}
+	},
+	active: {
+		type: Boolean,
+		default: true,
 	},
 	// slug: String,
 	// phoneNumber: {
@@ -63,6 +82,20 @@ const Authschema = new mongoose.Schema({
 	// 	type: Date,
 	// 	default: Date.now
 	//     },
+
+	// enum: { values: ['Coffee', 'Tea'], message: '{VALUE} is not supported' }
+	// default:
+	// select
+	// validate:
+	// lower/uppercase
+	// trim
+	// match
+	// populate
+	// min/max numbers
+	// min/maxLength
+
+
+
 	passwordChangedAt: Date,
 	passwordResetToken: String,
 	passwordResetExpires: Date
