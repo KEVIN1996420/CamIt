@@ -40,7 +40,8 @@ exports.getUser = asyncHandler( async (req, res, next) => {
 // @desc POST /api/v1/auth
 // @access Public
 exports.addUser = asyncHandler( async (req, res, next) => {
-	const user = await Auth.create(req.body);
+	const user = await Auth.create(req.body); // ({firstname:req.body.firstName})
+	// optioanlly - pass in the fields to be accepted
 	res.status(201).json({
 		success: true,
 		data: user

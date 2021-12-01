@@ -125,6 +125,7 @@ Express ErrorHandler Middleware
 * under mounted routes where we use errorHandler in app.use
 
 Utils
+Custom ErrorResponse
 * Create errorResponse file
 * create class errorResponse which extends error class
 * constructor message and status
@@ -132,8 +133,14 @@ Utils
 * this.statusCode = statusCode
 * export and import ErrorResponse into error middleware
 * in errorHandler res.status(error.statusCode)
-* next(new ErrorResponse) is not working in controllers
+* custom error is not working in controllers
 
+Async Handler
+* this removes the try catch and calling next as it is asynchr
+* create new middleware file called async
+* create new asynchandler function passing in req, res, next
+* resolve the promise and catch the req, res, next
+* catch next
 
 
 

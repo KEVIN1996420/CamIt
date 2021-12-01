@@ -1,8 +1,11 @@
 /* jshint esversion: 9 */
-// const asyncHandler = require('../middleware/async');
-// const User = require('../models/User');
-
+// NPM MODULES
 const axios = require('axios');
+// const { get } = require('lodash'); what isss it
+// MIDDLEWARE
+const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middleware/async');
+
 
 // @desc Get all apis
 // @desc GET /api/v1/views/apis
@@ -71,56 +74,57 @@ exports.getHome = (req, res, next) => {
 // 	}	
 // };
 
-exports.getMapBoxWeather = async (req, res, next) => {
-	try{	
-		const { address } = req.params;
-		const latitude = address.split(",")[1];
-		const longitude = address.split(",")[0];
-		if(!address){
-			return res.status(400).json({
-				success: false,
-				msg: "No address provided"
-			});
-		}
-		// store urls
-		const mapboxURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=${process.env.MAPBOX_API_KEY}`;
-		
-		const request1 = await axios.get(mapboxURL);
-		const { center } = request1.data.features[0];
-		const latLong = `${center[1]},${center[0]}`; // lat comes from second coordinate
-		const data = request1.data.features[0].place_name;
+exports.getMapBoxWeather = asyncHandler( async (req, res, next) => {
 
-		// const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=${encodeURIComponent(latLong)}&units=m`;
-		// const request2 = await axios.get(weatherURL);
-		// const { current, location } = request2.data;
-		// const { temperature, feelslike, humidity } = current;
-		
-		// const data = 
-		// 	current.weather_descriptions[0] +
-		// 	". It is currently " + temperature +" degress out. " + 
-		// 	"Local time is " + location.localtime.split(" ")[1] + ". " + 
-		// 	"The chance of rain is " + temperature + "%. " +
-		// 	"It feels like " + feelslike + " degress out. " + 
-		// 	"The humidity is " + humidity + "%.";
-		
-		res.status(200).json({
-			success: true,
-			location: data,
-			coordinates: address
+	const { address } = req.params;
+	const latitude = address.split(",")[1];
+	const longitude = address.split(",")[0];
+	if(!address){
+		return res.status(400).json({
+			success: false,
+			msg: "No address provided"
 		});
-	}catch(err){
-		console.log(err.message);
-		if (err.message === "Cannot read property 'center' of undefined") {
-			res.status(404).json({
-				success: false,
-				msg: "Unable to find that location."
-			});
-		}else{
-			res.status(500).json({
-				success: false,
-				msg: "Unable to connect to location and weather services."
-			});
-		}
-		
-	}		
-};
+	}
+	// store urls
+	const mapboxURL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=${process.env.MAPBOX_API_KEY}`;
+	
+	const request1 = await axios.get(mapboxURL);
+	const { center } = request1.data.features[0];
+	const latLong = `${center[1]},${center[0]}`; // lat comes from second coordinate
+	const addressName = request1.data.features[0].place_name;
+
+	const weatherURL = `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_STACK_API}&query=${encodeURIComponent(latLong)}&units=m`;
+	const request2 = await axios.get(weatherURL);
+	// console.log(request2.data);
+	const { current, location } = request2.data;
+	const { temperature, feelslike, humidity } = current;
+	
+	const data = 
+		current.weather_descriptions[0] +
+		". It is currently " + temperature +" degress out. " + 
+		"Local time is " + location.localtime.split(" ")[1] + ". " + 
+		"The chance of rain is " + temperature + "%. " +
+		"It feels like " + feelslike + " degress out. " + 
+		"The humidity is " + humidity + "%.";
+
+	res.status(200).json({
+		success: true,
+		coordinates: address,
+		location: addressName,
+		weather: data
+	});
+
+	// console.log(err.message);
+
+	// if (err.message === "Cannot read property 'center' of undefined") {
+	// 	res.status(404).json({
+	// 		success: false,
+	// 		msg: "Unable to find that location."
+	// 	});
+	// }else{
+	// 	res.status(500).json({
+	// 		success: false,
+	// 		msg: "Unable to connect to location and weather services."
+	// 	});
+	// }
+});
