@@ -177,5 +177,21 @@ ADVANCED FILTERING
 * find by using parsed queryStr
 * look at mongo filtering
 
-SORTING
+FILTER/SORTING/SELECTING/PAGINATION
 * 
+
+COMM
+* Create new model,route and controller files
+* Require the comm route file into the Auth route
+* In comm route set express router to mergeparams true
+* Create new comm and see if you search authId if it shows relating comms
+* inside get all comms, add query and if query find auth and his comms auth/:authId/comm
+* if not query show all comms /comm/
+explanation:
+- we add the reference to the user/auth to the comm model
+- we then require the comm route in to the auth route
+- we then create /:authId/comm route in auth route file
+- this allows us to access the parent(auth route) and then the child route ontop of the auth route
+- it first looks for auth by id then looks for all the comms for that auth
+
+

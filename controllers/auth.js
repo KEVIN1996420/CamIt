@@ -10,7 +10,7 @@ const geocoder = require('../utils/geocoder');
 // @desc Get all users
 // @desc GET /api/v1/auth
 // @access Public
-exports.getUsers =asyncHandler( async (req, res, next) => {
+exports.getUsers = asyncHandler( async (req, res, next) => {
 	let query;
 
 	// make copy using spread operator

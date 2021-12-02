@@ -12,8 +12,14 @@ const {
 	getUsersInRadius
 } = require('../controllers/auth');
 
-// create express router
+// include other resource routers
+const commRouter = require('./comm');
+
+// create express router - parent router of comm
 const router = express.Router(); 
+
+// Re-route into other resource routers
+router.use('/:authId/comm', commRouter);
 
 // set up express router to 
 router
