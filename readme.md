@@ -164,8 +164,14 @@ SEEDING DATA TO MONGO
 * if process.argv[2] === '-d' or 'delete'
 * run node seeder -i
 
-* Setup Get by radius route copy to other
+Setup Get by radius route copy to other
 * require geocoder util in controller
 * setup function to get users/products/items using zipcode
 * add function to route
 
+ADVANCED FILTERING
+* initialize query
+* set queryStr = stringified json
+* queryStr.replace
+* initialize data var examp = users/bootcamp/products
+* find by using parsed queryStr

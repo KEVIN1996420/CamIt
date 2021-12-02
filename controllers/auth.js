@@ -11,7 +11,22 @@ const geocoder = require('../utils/geocoder');
 // @desc GET /api/v1/auth
 // @access Public
 exports.getUsers =asyncHandler( async (req, res, next) => {
-	const users = await Auth.find().select('name email');
+	let query;
+
+	let queryStr = JSON.stringify(req.query);
+
+	queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+	// console.log(queryStr);
+	let users;
+
+	if(!queryStr){
+		users = await Auth.find().select('name email');
+	}
+	if(queryStr){
+		users = await Auth.find(JSON.parse(queryStr));
+	}
+
 	res.status(200).json({
 		success: true,
 		data: users,
@@ -115,4 +130,4 @@ exports.getUsersInRadius = asyncHandler( async ( req, res, next ) => {
 	    results: users.length,
 	    data: users
 	});
-    });
+});
