@@ -13,23 +13,74 @@ const geocoder = require('../utils/geocoder');
 exports.getUsers =asyncHandler( async (req, res, next) => {
 	let query;
 
-	let queryStr = JSON.stringify(req.query);
+	// make copy using spread operator
+	const reqQuery = { ...req.query };
 
+	//create query string
+	let queryStr = JSON.stringify(reqQuery);
+
+	//  remove fields from query string
+	const removeFields = ['select', 'sort', 'page', 'limit'];
+
+	// loop over removeFields and remove them from query string
+	removeFields.forEach(param => delete reqQuery[param]);
+	
+	// create operators
 	queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-	// console.log(queryStr);
+	query = Auth.find(JSON.parse(queryStr));
+
 	let users;
 
 	if(!queryStr){
 		users = await Auth.find().select('name email');
 	}
+
+	// Pagination result
+	const pagination = {};
+
 	if(queryStr){
-		users = await Auth.find(JSON.parse(queryStr));
+		// select
+		if(req.query.select){
+			const fields = req.query.select.split(',').join(' ');
+			users = query.select(fields);
+		}
+		// sort
+		if(req.query.sort){
+			const sortBy = req.query.sort.split(',').join(' ');
+			users = query.sort(sortBy);
+		}
+		// pagination
+		const page = parseInt(req.query.page, 10) || 1;
+		const limit = parseInt(req.query.limit, 10) || 10;
+		const startIndex = (page - 1) * limit;
+		const endIndex = page * limit;
+		const total = await Auth.countDocuments();
+
+		query = await query.skip(startIndex).limit(limit);
+
+		// Executing query
+		users = query;
+
+		if(endIndex < total){
+			pagination.next = {
+				page: page + 1,
+				limit
+			};
+		}
+
+		if(startIndex > 0){
+			pagination.prev = {
+				page: page - 1,
+				limit
+			};
+		}
 	}
 
 	res.status(200).json({
 		success: true,
 		data: users,
+		pagination,
 		results: users.length
 	});
 });

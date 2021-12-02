@@ -171,7 +171,11 @@ Setup Get by radius route copy to other
 
 ADVANCED FILTERING
 * initialize query
-* set queryStr = stringified json
+* set queryStr = stringified json of req.query
 * queryStr.replace
 * initialize data var examp = users/bootcamp/products
 * find by using parsed queryStr
+* look at mongo filtering
+
+SORTING
+* 
