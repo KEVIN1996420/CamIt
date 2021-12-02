@@ -114,8 +114,6 @@ exports.getMapBoxWeather = asyncHandler( async (req, res, next) => {
 		weather: data
 	});
 
-	// console.log(err.message);
-
 	// if (err.message === "Cannot read property 'center' of undefined") {
 	// 	res.status(404).json({
 	// 		success: false,

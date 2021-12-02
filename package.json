@@ -18,7 +18,9 @@
     "http": "^0.0.1-security",
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0",
+    "node-geocoder": "^3.28.0",
     "pug": "^3.0.2",
+    "slugify": "^1.6.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {

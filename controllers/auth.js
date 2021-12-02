@@ -4,7 +4,8 @@ const Auth = require('../models/Auth');
 // MIDDLEWARE
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
-
+// UTILS
+const geocoder = require('../utils/geocoder');
 
 // @desc Get all users
 // @desc GET /api/v1/auth
@@ -91,3 +92,27 @@ exports.deleteUser = asyncHandler( async (req, res, next) => {
 		msg: "Deleted User"
 	});
 });
+
+// @desc GET users by radius
+// @desc Delete /api/v1/auth/radius/:zipcode/:distance
+// @access Private
+exports.getUsersInRadius = asyncHandler( async ( req, res, next ) => {
+	const { zipcode, distance} = req.params;
+	// GET LAT/LNG FROM GEOCODER
+	const loc = await geocoder.geocode(zipcode);
+	const lat = loc[0].latitude;
+	const lng = loc[0].longitude;
+	// CALCULATE RADIUS
+	// DIVIDE DISTANCE BY RADIUS of EARTH = 3963 MI / 6378 KM
+	const radius = distance / 6378 ;
+	const users = await Auth.find({
+	    location: {
+		$geoWithin: { $centerSphere: [[ lng, lat ], radius ]}}
+	});
+    
+	res.status(200).json({
+	    success: true,
+	    results: users.length,
+	    data: users
+	});
+    });

@@ -142,6 +142,30 @@ Async Handler
 * resolve the promise and catch the req, res, next
 * catch next
 
+NODE GEOCODER MAPQUEST
+* create utils geocoder with mapquest and api key
+* save into configs
+* export geocoder and import into models
+* create middleware to run before save that uses util geocoder
 
+SEEDING DATA TO MONGO
+* by server.js create seeder.js
+* install fs
+* require fs, mongoose, dotenv
+* setup path to env vars
+* connect to DB copy from db.js
+* read json files - JSON.parse(fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8));
+* import into db
+* async - import asyncHandler
+* await Auth.create(users);
+* console.log(`Data imported...`);
+* exit process
+* if process.argv[2] === '-i' or 'import'
+* if process.argv[2] === '-d' or 'delete'
+* run node seeder -i
 
+* Setup Get by radius route copy to other
+* require geocoder util in controller
+* setup function to get users/products/items using zipcode
+* add function to route
 

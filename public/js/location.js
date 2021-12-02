@@ -16,7 +16,7 @@ function getLocation() {
 // }
 
 function showPosition(position) {
-  content = position.coords.longitude + "," + position.coords.latitude;
+  const content = position.coords.longitude + "," + position.coords.latitude;
 
   fetch(`http://localhost:3000/api/v1/views/mapbox-weather/${content}?types=poi`).then((response) => {
     response.json().then((data) => {
