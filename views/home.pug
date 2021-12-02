@@ -2,13 +2,56 @@ extends base
 
 block content
 	main
-		.position-relative.overflow-hidden.p-3.p-md-5.m-md-3.text-center.bg-light
-			.col-md-5.p-lg-5.mx-auto.my-5
-				h1.display-4.fw-normal= title
-				p.lead.fw-normal
-					| Click the button to get your Coordinates, Address and Weather.
-				button.btn.btn-outline-secondary(onclick="getLocation()") Click Here
-				p
-				p.lead.fw-normal(id="locationData")
-				p.lead.fw-normal(id="locationWeather")
-		
+		svg(viewbox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg')
+			defs
+				style(type='text/css').
+					.wave {
+					animation: wave 8s linear infinite;
+					}
+					.wave1 {
+					animation: wave1 10s linear infinite;
+					}
+					.wave2 {
+					animation: wave2 12s linear infinite;
+					}
+					@keyframes wave {
+					0% {
+					transform: translateX(0%);
+					}
+					100% {
+					transform: translateX(100%);
+					}
+					}
+					@keyframes wave1 {
+					0% {
+					transform: scaleY(1.2) translateX(0%);
+					}
+					100% {
+					transform: scaleY(1.2) translateX(100%);
+					}
+					}
+					@keyframes wave2 {
+					0% {
+					transform: scaleY(.8) translateX(0%);
+					}
+					100% {
+					transform: scaleY(.8) translateX(100%);
+					}
+					}
+				path#sineWave(fill='#0099ff' fill-opacity='0.2' d='M0,160 C320,300,420,300,740,160 C1060,20,1120,20,1440,160 V0 H0')
+			use.wave(href='#sineWave')
+			use.wave(x='-100%' href='#sineWave')
+			use.wave1(href='#sineWave')
+			use.wave1(x='-100%' href='#sineWave')
+			use.wave2(href='#sineWave')
+			use.wave2(x='-100%' href='#sineWave')
+
+			#homeContainer.text-center
+				.col-md-5.p-lg-5.mx-auto.my-5
+					h1.display-4.fw-normal= title
+					p.lead.fw-normal
+						| Click the button to get your Coordinates, Address and Weather.
+					button.btn.btn-outline-secondary(onclick="getLocation()") Click Here
+					p
+					p.lead.fw-normal(id="locationData")
+					p.lead.fw-normal(id="locationWeather")
