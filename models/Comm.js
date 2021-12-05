@@ -39,7 +39,7 @@ const CommSchema = new mongoose.Schema({
 	auth: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Auth',
-		// required: [true, `Auth is required`],
+		required: [true, `Auth is required`],
 	},
 	createdAt: {
 		type: Date,

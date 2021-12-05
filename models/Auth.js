@@ -57,11 +57,11 @@ const AuthSchema = new mongoose.Schema({
 		type: {
 			type: String, // Don't do `{ location: { type: String } }`
 			enum: ['Point'], // 'location.type' must be 'Point'
-			// required: true
+			required: true
 		      },
 		      coordinates: {
 			type: [Number],
-			// required: true,
+			required: true,
 			index: '2dsphere'
 		      },
 		      formattedAddress: String,
@@ -130,5 +130,21 @@ AuthSchema.pre('save', async function(next){
 	next();
     });
 
+// Cascade delete comms
+AuthSchema.pre('remove', async function(next){
+	console.log( 'Deleting all comms of ' + this.name );
+	await this.model('Comm').deleteMany({ auth: this._id });
+	next();
+});
+
+
+
+// Reverse populate with virtuals
+AuthSchema.virtual('comms', {
+	ref: 'Comm',
+	localField: '_id',
+	foreignField: 'auth',
+	justOne: false
+});
 
 module.exports = mongoose.model('Auth', AuthSchema);

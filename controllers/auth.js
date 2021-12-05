@@ -28,11 +28,11 @@ exports.getUsers = asyncHandler( async (req, res, next) => {
 	// create operators
 	queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-	query = Auth.find(JSON.parse(queryStr));
+	query = Auth.find(JSON.parse(queryStr)).populate('comms');
 
 	let users;
 
-	if(!queryStr){
+	if(!query){
 		users = await Auth.find().select('name email');
 	}
 
@@ -89,7 +89,7 @@ exports.getUsers = asyncHandler( async (req, res, next) => {
 // @desc GET /api/v1/auth/:id
 // @access Public
 exports.getUser = asyncHandler( async (req, res, next) => {
-	const user = await Auth.findById(req.params.id).select('name email');
+	const user = await Auth.findById(req.params.id);
 
 	if(!user) {
 		return next(
@@ -143,7 +143,7 @@ exports.updateUser = asyncHandler( async (req, res, next) => {
 // @desc Delete /api/v1/auth/:id
 // @access Private
 exports.deleteUser = asyncHandler( async (req, res, next) => {
-	const user = await Auth.findByIdAndDelete(req.params.id);
+	const user = await Auth.findById(req.params.id);
 
 	if(!user) {
 		// return the first response
@@ -152,6 +152,8 @@ exports.deleteUser = asyncHandler( async (req, res, next) => {
 			msg: "User not found"
 		});
 	}
+
+	await user.remove();// will trigger middleware to delete comms
 
 	res.status(200).json({
 		success: true,

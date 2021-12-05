@@ -133,7 +133,7 @@ Custom ErrorResponse
 * this.statusCode = statusCode
 * export and import ErrorResponse into error middleware
 * in errorHandler res.status(error.statusCode)
-* custom error is not working in controllers
+<!-- * custom error is not working in controllers -->
 
 Async Handler
 * this removes the try catch and calling next as it is asynchr
@@ -194,4 +194,23 @@ explanation:
 - this allows us to access the parent(auth route) and then the child route ontop of the auth route
 - it first looks for auth by id then looks for all the comms for that auth
 
+- Create virtual in auth to make an array of all the different comms the user has
+- Get single comm and Add comm
+- to add a comm we need the req.params.authId to add to the comm auth
+- later we can get this from req.user
+
+- Update and Delete comms
+
+
+
+
+Virtuals + Populate + Cascade Delete
+- Cascade delete should change to when a user is updated to active : false - all user comms should be marked as active : false  
+- Populate : .populate(path: field to populate data with, select: fields to show) uses time and resources
+<!-- Virtuals not working -->
+<!-- Populate working auth on comms -->
+
+Aggregate
+
+Photo Upload
 

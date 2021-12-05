@@ -5,15 +5,22 @@ const express = require('express');
 // FUNCTIONS
 const {
 	getComms,
-	// getAuthComms,
-	// createComm,
-	// updateComm,
-	// deleteComm
+	getComm,
+	addComm,
+	updateComm,
+	deleteComm
     } = require('../controllers/comm');
 
 // child router of auth
 const router = express.Router({ mergerParams: true });
 
-router.route('/').get(getComms);
+router.route('/')
+	.get(getComms);
+
+router.route('/:id')
+	.get(getComm)
+	.post(addComm)
+	.put(updateComm)
+	.delete(deleteComm);
 
 module.exports = router;
