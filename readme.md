@@ -211,7 +211,11 @@ Virtuals + Populate + Cascade Delete
 <!-- Virtuals not working -->
 <!-- Populate working auth on comms -->
 
-Aggregate
+Aggregate - AvgCost
+- create post save and pre delete middleware
+- create function that will aggregate when comm is deleted or removed
+- this will give us the avergae cost of all comms for that user
+
 
 Photo Upload
 

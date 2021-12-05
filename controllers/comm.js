@@ -34,6 +34,9 @@ exports.getComms = asyncHandler(async (req, res, next) => {
 	});
 });
 
+// @desc Get comm
+// @desc GET /api/v1/comm/:id
+// @access Public
 exports.getComm = asyncHandler(async (req, res, next) => {
 	const comm = await Comm.findById(req.params.id).populate('auth');
 

@@ -71,6 +71,10 @@ const AuthSchema = new mongoose.Schema({
 		      zipcode: String,
 		      country: String,
 	},
+	avgCost:{
+		type: Number,
+		default: 1,
+	},
 	// averageRating: {
 	// 	type: Number,
 	// 	default: 1,
@@ -136,7 +140,6 @@ AuthSchema.pre('remove', async function(next){
 	await this.model('Comm').deleteMany({ auth: this._id });
 	next();
 });
-
 
 
 // Reverse populate with virtuals

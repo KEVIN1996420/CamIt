@@ -36,6 +36,13 @@ const CommSchema = new mongoose.Schema({
 		required: [true, `Currency is required`],
 		enum: ['EUR', 'USD', 'GBP', 'ZAR'],
 	},
+	price: {
+		type: Number,
+		required: [true, `Price is required`],
+		trim: true,
+		min: 0,
+		max: 1000000,
+	},
 	auth: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Auth',
@@ -50,6 +57,38 @@ const CommSchema = new mongoose.Schema({
 }, {
 	toJSON: { virtuals: true},
 	toObject: { virtuals: true }	
+});
+
+// static method to get avg of comm price
+CommSchema.statics.getAvgCost = async function(authId) {
+	const obj = await this.aggregate([
+		{
+			$match: { auth: authId}
+		},
+		{
+			$group: {
+				_id: '$auth',
+				avgCost: { $avg: '$price' }
+			}
+		}
+	]);
+	// console.log(obj);
+	try{
+		await this.model('Auth').findByIdAndUpdate(authId, { avgCost: Math.ceil(obj[0].avgCost / 10 ) * 10 });
+	} catch(err) {
+		console.log(err);
+	}
+};
+
+
+// call avgCost after save
+CommSchema.post('save', function() {
+	this.constructor.getAvgCost(this.auth);
+});
+
+// call avgCost before remove
+CommSchema.pre('remove', function() {
+	this.constructor.getAvgCost(this.auth);
 });
 
 module.exports = mongoose.model('Comm', CommSchema);
