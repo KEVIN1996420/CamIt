@@ -200,6 +200,7 @@ explanation:
 - later we can get this from req.user
 
 - Update and Delete comms
+- remember if middleware must run, then at end we await remove or update
 
 
 
